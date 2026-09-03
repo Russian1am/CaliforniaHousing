@@ -1,0 +1,3 @@
+/home/nogyro/Documents/trash_cpp/neural_network/housing/build/CMakeFiles/app.dir
+/home/nogyro/Documents/trash_cpp/neural_network/housing/build/CMakeFiles/edit_cache.dir
+/home/nogyro/Documents/trash_cpp/neural_network/housing/build/CMakeFiles/rebuild_cache.dir
