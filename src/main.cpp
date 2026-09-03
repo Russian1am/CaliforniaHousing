@@ -60,38 +60,33 @@ void min_max_foo(dataset& dt, std::vector<float>& min_max_values){
 
 void csv_parser(dataset& dt, const std::string file_location){
     std::ifstream file(file_location);
-    std::vector<std::string> raw_data;
-    std::string raw_line;
+    std::string raw_line, time_line;
+    size_t comma_counter;
+    bool flag;
     if (file.is_open()){
         std::cout << "File was found." << std::endl;
         while (getline(file, raw_line)){
-            raw_data.push_back(raw_line);
-        }
-
-        size_t comma_counter;
-        bool flag;
-        for (size_t raw_data_index = 0; raw_data_index < raw_data.size(); raw_data_index++){
             comma_counter = 0;
             flag = true;
-            for (size_t symbol_index = 0; symbol_index < raw_data[raw_data_index].length()-1; symbol_index++){
-                if (raw_data[raw_data_index][symbol_index] == raw_data[raw_data_index][symbol_index+1] && raw_data[raw_data_index][symbol_index] == ','){
+            for (size_t symbol_index = 0; symbol_index < raw_line.length()-1; symbol_index++){
+                if (raw_line[symbol_index] == raw_line[symbol_index+1] && raw_line[symbol_index] == ','){
                     flag = false;
                 }
             }
             if (flag){
-                for (size_t symbol_index = 0; symbol_index < raw_data[raw_data_index].length(); symbol_index++){
-                    if (raw_data[raw_data_index][symbol_index] != ','){
-                        raw_line += raw_data[raw_data_index][symbol_index];
+                for (size_t symbol_index = 0; symbol_index < raw_line.length(); symbol_index++){
+                    if (raw_line[symbol_index] != ','){
+                        time_line += raw_line[symbol_index];
                     }
                     else{
-                        dt[comma_counter].push_back(std::stof(raw_line));
-                        raw_line.clear();
+                        dt[comma_counter].push_back(std::stof(time_line));
+                        time_line.clear();
                         comma_counter++;
                     }
 
-                    if (symbol_index == raw_data[raw_data_index].length()-1){
-                        dt[comma_counter].push_back(std::stof(raw_line));
-                        raw_line.clear();
+                    if (symbol_index == raw_line.length()-1){
+                        dt[comma_counter].push_back(std::stof(time_line));
+                        time_line.clear();
                     }
                 }
             }
@@ -135,7 +130,7 @@ int main(){
     std::vector<float> inputs;
 
     float result;
-    const int epochs = 2000;
+    const int epochs = 10;
     for (int eps = 0; eps < epochs; eps++){
         for (size_t i = 0; i < 20000; i++){
             inputs = {dt[0][i], dt[1][i], dt[2][i], dt[3][i], dt[4][i], dt[5][i], dt[6][i], dt[7][i], dt[9][i]};
